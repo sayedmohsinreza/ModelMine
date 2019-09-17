@@ -45,25 +45,21 @@ print '<div id="collapseAdvancedSearch" class="'.$collapse_class.' alert alert-s
 
 
 
-<div class="row"><div class="col-sm-3">
+<div class="row"><div class="col-sm-4">
 '.create_input('Size','text','size',$size_text,'','','Help: matches repositories that are at least 30000 (30 MB).', false).'
-</div><div class="col-sm-3">
+</div><div class="col-sm-4">
 '.create_input('Number of stars','text','stars','','','','Help: matches repositories with the at least 500 stars.', false).'
-</div><div class="col-sm-3">
-'.create_input('Created','text','created','','','','Help: matches repositories that were created before 2011.', false).'
-</div><div class="col-sm-3">
-'.create_input('Pushed','text','pushed','','','','Help: matches repositories with the word "css" that were pushed to after January 2013.', false).'
+</div><div class="col-sm-4">
+'.create_input('language','text','language',$language_text,'','','Help: matches repositories with the word "rails" that are written in JavaScript.', false).'
 </div></div>
 
 
-<div class="row"><div class="col-sm-3">
-'.create_input('Size','text','size',$size_text,'','','Help: matches repositories that are at least 30000 (30 MB).', false).'
-</div><div class="col-sm-3">
-'.create_input('Number of stars','text','stars','','','','Help: matches repositories with the at least 500 stars.', false).'
-</div><div class="col-sm-3">
+<div class="row"><div class="col-sm-4">
 '.create_input('Created','text','created','','','','Help: matches repositories that were created before 2011.', false).'
-</div><div class="col-sm-3">
+</div><div class="col-sm-4">
 '.create_input('Pushed','text','pushed','','','','Help: matches repositories with the word "css" that were pushed to after January 2013.', false).'
+</div><div class="col-sm-4">
+
 </div></div>
 
 <!---
