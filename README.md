@@ -12,3 +12,8 @@ Steps to run this ModelMineApplication
 4. Start Apache Server and then browser and type [http://localhost/ModelMine/]
 
 !!!Enjoy ModelMine Application!!!
+
+#Screenshots
+![picture](img/inedx.png)
+![picture](img/repository.png)
+![picture](img/file.png)
