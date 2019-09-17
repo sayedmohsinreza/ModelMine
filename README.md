@@ -13,7 +13,7 @@ Steps to run this ModelMineApplication
 
 !!!Enjoy ModelMine Application!!!
 
-#Screenshots
-![picture](img/inedx.png)
+# Screenshots
+![picture](img/index.png)
 ![picture](img/repository.png)
 ![picture](img/file.png)
