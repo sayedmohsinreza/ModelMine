@@ -4,12 +4,17 @@ An application to mine models from GITHUB
 The ModelMine helps you to search for model based repositories (.uml, .xmi etc.). For example, you can search for .uml based repositories. The option is not integrate in Advanced Search in GitHub Website. Also Think of it the way, you want to search a repository that has language: Java and repository has model files(.uml or .xmi etc), then this app will help you to find those repository. Just like searching on GitHub, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. To satisfy that need, the ModelMine provides best result based on search criterias.
 
 
-Steps to run this ModelMineApplication
+**Steps to run this ModelMineApplication**
 
 1. Install an APACHE SERVER to run PHP scripts. For example: https://www.apachefriends.org/ 
 2. Go to installation location. For example: C:\xampp\htdocs\
 3. Download this repository and keep in the C:\xampp\htdocs\ModelMine folder.
-4. Start Apache Server and then browser and type [http://localhost/ModelMine/]
+4. Edit the following two lines in  definedVariables.php.
+```
+define('GITHUB_USERNAME', 'USERNAME_FROM_GITHUB');
+define('GITHUB_PASSWORD', 'PASSWORD_FROM_GITHUB');
+```
+5. Start Apache Server and then browser and type [http://localhost/ModelMine/]
 
 !!!Enjoy ModelMine Application!!!
 
