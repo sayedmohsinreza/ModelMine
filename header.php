@@ -1,7 +1,7 @@
 <?php
-include 'dbConnection.php';
 include 'designFunctions.php';
 include 'processFunctions.php';
+
 print '<!doctype html>
 <html lang="en">
   <head>
@@ -80,7 +80,7 @@ print '
   print'  <div class="container-fluid"><br>';
 
 
-
+ 
 
 
 ?>

@@ -4,34 +4,41 @@ include "header.php";
 $collapse_class = 'collapse';
 $searchTB_text = '';
 $size_text = '';
+$stars_text = '';
 $language_text = '';
-$createdAt_text = '';
-$pushedAt_text = '';
+$created_text = '';
+$pushed_text = '';
 if(isset($_POST['searchButton'])){
     $collapse_class = 'collapse';
-    $searchTB_text = $_POST['searchTB'];
-    $createdAt_text = $_POST['createdAtTB'];
-    $pushedAt_text = $_POST['pushedAtTB'];
 }
-
-
 if(isset($_POST['advancedSearchButton'])){
     $collapse_class = '';
-    $searchTB_text = $_POST['searchTB'];
-    $size_text = $_POST['size'];
-    $language_text = $_POST['language'];
-    $createdAt_text = $_POST['createdAtTB'];
-    $pushedAt_text = $_POST['pushedAtTB'];
-  
 }
 
+if(isset($_POST['searchButton']) || isset($_POST['advancedSearchButton'])){
+   $searchTB_text = $_POST['searchTB'];
+    $size_text = $_POST['size'];
+    $stars_text = $_POST['stars'];
+    $language_text = $_POST['language'];
+    $created_text = $_POST['created'];
+    $pushed_text = $_POST['pushed'];
+}
 
+print GITHUB_INSTRUCTION;
 print '<form name ="searchForm" method="post">';
 
 print '<div class="alert alert-secondary">
 Repository Search
 <div class="input-group mb-3">
   <input name="searchTB" type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="keywords for search" value ="'.$searchTB_text.'">
+  <select class="custom-select" name="github_account" required>
+    <option selected value="0">Choose GITHUB account</option>';
+    foreach (GITHUB_CREDENTIALS as $key => $credential) {
+      if(isset($_POST['github_account']) && $_POST['github_account'] == $key){$select_str = 'selected';}else{$select_str = '';}
+      print '<option value="'.$key.'" '.$select_str.'>USERNAME: '.$credential['username'].', PASSWORD: '.substr($credential['password'], 0, 2).'*****'.substr($credential['password'], -2).'</option>';
+    }
+    
+  print '</select>
   <div class="input-group-append">
   <button name="searchButton" type="submit" class="btn btn-primary" value="1">Search</button>
   <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseAdvancedSearch" aria-expanded="false" aria-controls="collapseAdvancedSearch">Advanced Search</button>
@@ -48,16 +55,16 @@ print '<div id="collapseAdvancedSearch" class="'.$collapse_class.' alert alert-s
 <div class="row"><div class="col-sm-4">
 '.create_input('Size','text','size',$size_text,'','','Help: matches repositories that are at least 30000 (30 MB).', false).'
 </div><div class="col-sm-4">
-'.create_input('Number of stars','text','stars','','','','Help: matches repositories with the at least 500 stars.', false).'
+'.create_input('Number of stars','text','stars',$stars_text,'','','Help: matches repositories with the at least 500 stars.', false).'
 </div><div class="col-sm-4">
 '.create_input('language','text','language',$language_text,'','','Help: matches repositories with the word "rails" that are written in JavaScript.', false).'
 </div></div>
 
 
 <div class="row"><div class="col-sm-4">
-'.create_input('Created','text','created','','','','Help: matches repositories that were created before 2011.', false).'
+'.create_input('Created','text','created',$created_text,'','','Help: matches repositories that were created before 2011.', false).'
 </div><div class="col-sm-4">
-'.create_input('Pushed','text','pushed','','','','Help: matches repositories with the word "css" that were pushed to after January 2013.', false).'
+'.create_input('Pushed','text','pushed',$pushed_text,'','','Help: matches repositories with the word "css" that were pushed to after January 2013.', false).'
 </div><div class="col-sm-4">
 
 </div></div>
@@ -133,16 +140,23 @@ if(isset($_POST['searchButton']) || isset($_POST['advancedSearchButton'])){
     $header_array = array('Accept: application/vnd.github.machine-man-preview+json', 'User-Agent: Awesome-Octocat-App');
 
     if(!empty($_POST['size'] )){$searchTB_text.=' size:>='.$size_text;}
+    if(!empty($_POST['stars'] )){$searchTB_text.=' stars>:'.$stars_text;}
     if(!empty($_POST['language'] )){$searchTB_text.=' language:'.$language_text;}
+    if(!empty($_POST['created'] )){$searchTB_text.=' created:>='.$created_text;}
+    if(!empty($_POST['pushed'] )){$searchTB_text.=' pushed:>='.$pushed_text;}
 
     $page =1;
     $count_repo = 0;
+    $account_no = $_POST['github_account'];
     while (1) {
         $data = array('q'=> $searchTB_text, 'page' => $page, 'per_page'=> 100);
         $url = 'https://api.github.com/search/repositories';
-        $result_json = callAPI('GET', $url, $data, $header_array, GITHUB_USERNAME, GITHUB_PASSWORD);
+        $result_json = callAPI('GET', $url, $data, $header_array, GITHUB_CREDENTIALS[$account_no]['username'], GITHUB_CREDENTIALS[$account_no]['password']);
         $result = json_decode($result_json, true);
-        lau($result);
+        if(!isset($result['total_count'])){
+          printf('<div class="alert alert-danger">Search operation is stopped. Reason is given below.</div>');
+          lau($result);
+        }
         if(isset($result['items'])){
           $data = $result['items'];
         }else{
@@ -150,6 +164,7 @@ if(isset($_POST['searchButton']) || isset($_POST['advancedSearchButton'])){
         }
 
         if($page==1){
+          $total_count = $result['total_count'];
             $table_str= "<table id='mytable'  class='table table-striped table-bordered' style='width:100%'><thead><tr>";
             $table_str.= '<th>#</th><th>Name</th><th>Owner Name</th><th>Size</th><th>Stars</th><th>Watchers</th><th>Language</th><th>Created Date</th><th>Last Updated</th><th>Last Pushed</th>';
             $table_str.= '<th>Action</th></tr></thead><tbody>';
@@ -188,7 +203,7 @@ if(isset($_POST['searchButton']) || isset($_POST['advancedSearchButton'])){
       if($count_repo >= 1000){
           $max_str = '(GITHUB Limitation: Maximum 1000 entries are returned. For more details at <a target="_blank" href ="https://developer.github.com/v3/search/#search-repositories">Click Here</a>).';
       } 
-      $count_str = '<div class="alert alert-success">Showing <b>'.$count_repo.'</b> of <b>'. $result['total_count'].'</b> repositories. '.$max_str.'</div>';
+      $count_str = '<div class="alert alert-success">Showing <b>'.$count_repo.'</b> of <b>'.$total_count.'</b> repositories. '.$max_str.'</div>';
 
 
       print $count_str.$table_str ;
@@ -199,6 +214,10 @@ print '
 <script type="text/javascript"> 
 $(document).ready(function() {
      var t = $(\'#mytable\').DataTable({
+      dom: \'Bfrtip\',
+      buttons: [
+        \'copy\', \'excel\', \'pdf\'
+      ],
       "order": [[ 3, "desc" ]]
       });
 
