@@ -9,10 +9,13 @@ The ModelMine helps you to search for model based repositories (.uml, .xmi etc.)
 1. Install an APACHE SERVER to run PHP scripts. For example: https://www.apachefriends.org/ 
 2. Go to installation location. For example: C:\xampp\htdocs\
 3. Download this repository and keep in the C:\xampp\htdocs\ModelMine folder.
-4. Edit the following two lines in  definedVariables.php.
+4. Edit the following information (username and password ) in  definedVariables.php. You can add multiple GitHub accounts.
 ```
-define('GITHUB_USERNAME', 'USERNAME_FROM_GITHUB');
-define('GITHUB_PASSWORD', 'PASSWORD_FROM_GITHUB');
+define('GITHUB_CREDENTIALS', array(	
+	 array('username'=>'INPUT_GITHUB_USERNAME', 'password' => 'INPUT_GITHUB_PASSWORD'),
+	 array('username'=>'INPUT_GITHUB_USERNAME_2', 'password' => 'INPUT_GITHUB_PASSWORD_2')
+	)
+);
 ```
 5. Start Apache Server and then browser and type [http://localhost/ModelMine/]
 
