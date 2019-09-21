@@ -6,9 +6,8 @@ define('APP_DETAILS', 'The '.APP_NAME.' helps you to search for model based repo
 
 
 define('GITHUB_CREDENTIALS', array(	
-	 array('username'=>'sayedmohsinreza', 'password' => '#Denver123#'),
-	 array('username'=>'rahadiit@gmail.com', 'password' => 'khandoker123'),
-	 array('username'=>'sreza3@miners.utep.edu', 'password' => 'Laila2019#')
+	 array('username'=>'GITHUB_USERNAME', 'password' => 'GITHUB_PASSWORD'),
+	 array('username'=>'GITHUB_USERNAME_2', 'password' => 'GITHUB_PASSWORD_2')
 	)
 );
 
