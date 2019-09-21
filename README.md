@@ -22,11 +22,18 @@ define('GITHUB_CREDENTIALS', array(
 !!!Enjoy ModelMine Application!!!
 
 # Screenshots
-**Home Page**
+**1 Home Page**
+
 ![picture](img/index.png)
-**Search Repository with different criterias**
+
+**2 Search Repository with different criterias**
+
 ![picture](img/repository_all.gif)
+
 **Search Repository with extension**
+
 ![picture](img/file.png)
-**Commit details of a specific extension in a specific repository**
+
+**3 Commit details of a specific extension in a specific repository**
+
 ![picture](img/commit_details_all.gif)
